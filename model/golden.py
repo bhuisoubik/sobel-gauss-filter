@@ -9,7 +9,6 @@ GY = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=np.int32)
 
 
 def make_test_image():
-    """Synthetic image: gradient + checker block + circle + noise-free edges."""
     img = np.zeros((H, W), dtype=np.uint8)
     img[:, :] = np.linspace(0, 160, W, dtype=np.uint8)[None, :]      # horizontal ramp
     img[8:28, 8:28] = (((np.indices((20, 20)).sum(axis=0) // 4) % 2) * 255)  # checker
@@ -19,7 +18,6 @@ def make_test_image():
 
 
 def windows(img):
-    """Yield 3x3 windows in the same order the RTL emits them (row-major, valid only)."""
     for r in range(H - 2):
         for c in range(W - 2):
             yield img[r:r + 3, c:c + 3].astype(np.int32)
