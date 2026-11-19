@@ -1,4 +1,3 @@
-// Clamp an unsigned value to 0..255.
 module saturate #(
     parameter IW = 12
 )(

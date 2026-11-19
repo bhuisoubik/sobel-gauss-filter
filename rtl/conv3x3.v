@@ -1,8 +1,4 @@
-// Two-stage pipelined convolution datapath for both filters.
-// Computes in parallel: Gaussian sum (unscaled), Sobel Gx, Sobel Gy.
-// Latency: 2 clocks. valid and mode are carried alongside the data.
-//   Gaussian kernel [1 2 1; 2 4 2; 1 2 1]
-//   Gx = [-1 0 1; -2 0 2; -1 0 1]    Gy = [-1 -2 -1; 0 0 0; 1 2 1]
+
 module conv3x3 (
     input  wire        clk,
     input  wire        rst_n,
@@ -17,14 +13,14 @@ module conv3x3 (
     output reg  signed [10:0] gx,
     output reg  signed [10:0] gy
 );
-    // Zero-extend pixels to 9-bit signed for the difference math.
+ 
     wire signed [8:0] s00 = {1'b0, w00}, s01 = {1'b0, w01}, s02 = {1'b0, w02};
     wire signed [8:0] s10 = {1'b0, w10},                    s12 = {1'b0, w12};
     wire signed [8:0] s20 = {1'b0, w20}, s21 = {1'b0, w21}, s22 = {1'b0, w22};
 
-    // ---- Stage 1: per-row / per-column partial results ----
+ 
     reg         v1, m1;
-    reg  [9:0]  gr0, gr1, gr2;                      // Gaussian row sums, max 1020
+    reg  [9:0]  gr0, gr1, gr2;                      
     reg  signed [8:0] dx0, dx1, dx2;                // Gx row differences
     reg  signed [8:0] dy0, dy1, dy2;                // Gy column differences
 
@@ -49,7 +45,7 @@ module conv3x3 (
         end
     end
 
-    // ---- Stage 2: combine the three partials ----
+
     always @(posedge clk) begin
         if (!rst_n) begin
             valid_out <= 1'b0; mode_out <= 1'b0;
@@ -57,8 +53,8 @@ module conv3x3 (
         end else begin
             valid_out <= v1;
             mode_out  <= m1;
-            gsum <= {2'b0, gr0} + {1'b0, gr1, 1'b0} + {2'b0, gr2};   // max 4080
-            gx   <= dx0 + (dx1 <<< 1) + dx2;                         // within +-1020
+            gsum <= {2'b0, gr0} + {1'b0, gr1, 1'b0} + {2'b0, gr2}; 
+            gx   <= dx0 + (dx1 <<< 1) + dx2;                         
             gy   <= dy0 + (dy1 <<< 1) + dy2;
         end
     end

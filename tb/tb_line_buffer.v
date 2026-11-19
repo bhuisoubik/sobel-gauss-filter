@@ -14,7 +14,7 @@ module tb_line_buffer;
     reg [7:0] hist [0:1023];
     integer n = 0, errors = 0, i;
 
-    // Check: each accepted sample must see the one written DEPTH enables ago.
+
     always @(posedge clk) if (rst_n && en) begin
         if (dout !== ((n >= DEPTH) ? hist[n-DEPTH] : 8'h00)) begin
             errors = errors + 1;
@@ -32,7 +32,7 @@ module tb_line_buffer;
         rst_n = 1;
         for (i = 0; i < 500; i = i + 1) begin
             @(negedge clk);
-            en  = (($random & 3) != 0);    // ~75% duty: tests stalls too
+            en  = (($random & 3) != 0);
             din = (i % 255) + 1;
         end
         @(negedge clk); en = 0;

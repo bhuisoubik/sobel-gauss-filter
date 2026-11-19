@@ -1,7 +1,3 @@
-// 3x3 sliding window over a row-major pixel stream.
-// Output wRC = row R, column C of the window (w00 = top-left).
-// valid_out is registered together with the window, so the two are aligned.
-// Latency: window for pixel k appears 1 clock after pixel k is accepted.
 module window_3x3 #(
     parameter DW = 8,
     parameter W  = 64,
@@ -19,8 +15,8 @@ module window_3x3 #(
     localparam CW = $clog2(W);
     localparam RW = $clog2(H);
 
-    wire [DW-1:0] row1;   // pixel one row above the input
-    wire [DW-1:0] row2;   // pixel two rows above the input
+    wire [DW-1:0] row1;
+    wire [DW-1:0] row2;
 
     line_buffer #(.DW(DW), .DEPTH(W)) lb1 (
         .clk(clk), .rst_n(rst_n), .en(en), .din(pix_in), .dout(row1));

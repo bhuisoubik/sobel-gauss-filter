@@ -1,5 +1,3 @@
-// Gradient magnitude approximation: |gx| + |gy| (avoids a square root).
-// Inputs are within +-1020, so |gx| fits in 10 bits and the sum is at most 2040.
 module sobel_mag (
     input  wire signed [10:0] gx,
     input  wire signed [10:0] gy,

@@ -1,7 +1,5 @@
 `timescale 1ns/1ps
-// Full-frame test. Plusargs: +MODE=0|1  +GAPS  +OUT=<hexfile>  +VCD=<vcdfile>
-// Streams data/input.hex, checks each output against the golden hex on the fly,
-// and writes the DUT output to a hex file for independent comparison.
+ 
 module tb_top;
     localparam W = 64, H = 64, NOUT = (W-2)*(H-2);
 
@@ -22,7 +20,7 @@ module tb_top;
     reg gaps;
     reg [8*64-1:0] outname, vcdname;
 
-    // Monitor: compare every valid output with the golden value.
+
     always @(posedge clk) if (valid_out) begin
         if (n < NOUT) begin
             if (pix_out !== golden[n]) begin
@@ -61,7 +59,7 @@ module tb_top;
             en = 1; pix_in = img[k];
         end
         @(negedge clk); en = 0;
-        repeat (10) @(negedge clk);          // drain the 4-stage pipeline
+        repeat (10) @(negedge clk);          
         $fclose(fd);
 
         if (n != NOUT) begin

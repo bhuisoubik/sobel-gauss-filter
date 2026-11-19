@@ -1,8 +1,3 @@
-// One-row delay line. When en is high, dout shows the sample that was
-// written DEPTH enables ago (0 before the buffer has filled), while din
-// is stored in its place. dout is a combinational read so it lines up
-// with the current input pixel; this maps to distributed RAM, not
-// registered-read BRAM (note this in the README).
 module line_buffer #(
     parameter DW    = 8,
     parameter DEPTH = 64
