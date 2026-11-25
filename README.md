@@ -18,6 +18,7 @@ For hardware interface, refer to [TOP.md](docs/top.md)
  
 ![Datapath Block Diagram](docs/datapath_block_diagram.svg)
 
+Refer to [ARCHITECTURE.md](docs/architecture.md) for specifications and diagrams.
 ### Pipeline
 
 | Stage | Location | Work done |
